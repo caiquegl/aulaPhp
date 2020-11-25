@@ -11,7 +11,7 @@ $row = mysqli_fetch_assoc($result);
 
 if($row['total'] == 1){
   $_SESSION['usuario_existe'] = true;
-  include('cadastro.php');
+	header('Location: cadastro.php');
   exit;
 }
 
@@ -22,6 +22,6 @@ if($conexao->query($sql) === TRUE){
 }
   $conexao->close();
 
-  include('index.php');
+	header('Location: index.php');
   exit;
 ?>
