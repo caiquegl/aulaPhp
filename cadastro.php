@@ -23,7 +23,7 @@
   <form action="cadastrar.php" method="POST" id="form_login">
     <div class="form-group">
       <label for="exampleInputEmail1">Email:</label>
-      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" placeholder="Digite seu email">
+      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="usuario" placeholder="Digite seu email">
 
     </div>
     <div class="form-group">
