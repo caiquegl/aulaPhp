@@ -1,14 +1,23 @@
 <?php
+session_start();
+include('conexao.php');
+
+if(empty($_POST['email']) || empty($_POST['senha'])) {
+	header('Location: index.php');
+	exit();
+}
+
 $email =  mysqli_real_escape_string($conexao, trim($_POST['email']));
 $senha =  mysqli_real_escape_string($conexao, trim($_POST['senha']));
   include("conexao.php");
 
-  $sql = "select count(*) as total from usuario where email = '$email' AND senha = '$senha'";
+  $query = "select email from usuario where email = '{$email}' and senha = '{$senha}')";
+
   
-  $result = mysqli_query($conexao, $sql);
+  $result = mysqli_query($conexao, $query);
 $row = mysqli_fetch_assoc($result);
 
-if($row['total'] == 1){
+if($row == 1){
   include("home.html");
 }else{
   $resultado["msg"] = "Usuário não encontrado";
