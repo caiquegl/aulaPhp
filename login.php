@@ -16,6 +16,7 @@ $senha =  mysqli_real_escape_string($conexao, trim($_POST['senha']));
   
   $result = mysqli_query($conexao, $query);
 $row = mysqli_fetch_assoc($result);
+debug_to_console($row);
 
 if($row == 1){
   include("home.html");
@@ -26,6 +27,6 @@ if($row == 1){
 }
   
   
-  $conn = null;
+$conexao->close();
 
 ?>
