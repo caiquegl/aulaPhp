@@ -31,7 +31,9 @@
       <input type="password" name="senha" class="form-control" id="senha" placeholder="Digite sua senha">
     </div>
     <div class="navbar">
+      <a href="https://caiquephp.herokuapp.com/index.php">
     <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </a>
 
     </div>
 
