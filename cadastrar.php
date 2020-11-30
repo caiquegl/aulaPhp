@@ -2,27 +2,28 @@
 session_start();
 include("conexao.php");
 
-$usuario = mysqli_real_escape_string($conexao, trim($_POST['usuario']));
-$senha = mysqli_real_escape_string($conexao, trim(md5($_POST['senha'])));
+$email =  mysqli_real_escape_string($conexao, trim($_POST['email']));
+$senha =  mysqli_real_escape_string($conexao, trim($_POST['senha']));
 
-$sql = "select count(*) as total from usuario where email = '$usuario'";
+$sql = "select count(*) as total from usuario where email = '$email'";
 $result = mysqli_query($conexao, $sql);
 $row = mysqli_fetch_assoc($result);
 
-if($row['total'] == 1) {
-	$_SESSION['usuario_existe'] = true;
-	header('Location: cadastro.php');
-	exit;
+if($row['total'] == 1){
+  $_SESSION['usuario_existe'] = true;
+  header('Location: cadastro.php');
+  exit;
 }
 
-$sql = "INSERT INTO usuario ( usuario, senha) VALUES ( '$usuario', '$senha')";
+$sql = "INSERT INTO usuario (email, senha) VALUES ('$email','$senha')";
 
-if($conexao->query($sql) === TRUE) {
-	$_SESSION['status_cadastro'] = true;
+if($conexao->query($sql) === TRUE){
+  $_SESSION['status_cadastro'] = true;
+}else{
+	echo 'Usuario já cadastrado';
 }
+  $conexao->close();
 
-$conexao->close();
-
-header('Location: index.php');
-exit;
+  header('Location: index.php');
+  exit;
 ?>

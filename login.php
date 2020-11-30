@@ -1,28 +1,37 @@
 <?php
-session_start();
-include('conexao.php');
+  $email = $_POST["email"];
+  $senha = $_POST["senha"];
 
-if(empty($_POST['usuario']) || empty($_POST['senha'])) {
-	header('Location: index.php');
-	exit();
-}
+  $servername = "de1tmi3t63foh7fa.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+  $username = "u1ep0xet77g9l3ca";
+  $password = "m3kk0o2toycsqb3b";
+  
+  try {
+    $conn = new PDO("mysql:host=$servername;dbname=ci9ez9zc43udapls", $username, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // echo "Conexão realizada com sucesso.";
 
-$usuario = mysqli_real_escape_string($conexao, $_POST['usuario']);
-$senha = mysqli_real_escape_string($conexao, $_POST['senha']);
+    $stmt = $conn->prepare("SELECT id FROM usuario WHERE email=:email AND senha=:senha");
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
+    $stmt->execute();
+    // set the resulting array to associative
+    $result = $stmt->fetchAll();
+    $qtd_usuario = count($result);
 
-$query = "select nome from usuario where usuario = '{$usuario}' and senha = '{$senha}'";
+    if($qtd_usuario == 1){
+			header('Location: home.php');
 
-$result = mysqli_query($conexao, $query);
+    }else{
+      $resultado["msg"] = "Usuário não encontrado";
+      $resultado["cod"] = 0;
+      include("index.php");
+    }
 
-$row = mysqli_num_rows($result);
+  } catch(PDOException $e) {
+    echo "Falha na conexão: " . $e->getMessage();
+  }
+  $conn = null;
 
-if($row == 1) {
-	$usuario_bd = mysqli_fetch_assoc($result);
-	$_SESSION['nome'] = $usuario_bd['nome'];
-	header('Location: home.php');
-	exit();
-} else {
-	$_SESSION['nao_autenticado'] = true;
-	header('Location: home.php');
-	exit();
-}
+?>

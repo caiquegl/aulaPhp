@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,19 +12,15 @@ session_start();
   <h2>
     Efetue o login
   </h2>
-  <?php
-                    if(isset($_SESSION['nao_autenticado'])):
-                    ?>
+  <?php if(isset($resultado) && $resultado["cod"] == 0): ?>
   <div class="alert alert-danger" role="alert">
-    Usuario não cadastrado
+    <?php echo $resultado["msg"]; ?>
   </div>
-  <?php
-                    endif;
-                    unset($_SESSION['nao_autenticado']);
-                    ?>  <form action="login.php" method="POST" id="form_login">
+  <?php endif; ?>
+  <form action="login.php" method="POST" id="form_login">
     <div class="form-group">
       <label for="exampleInputEmail1">Email:</label>
-      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="usuario" placeholder="Digite seu email">
+      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" placeholder="Digite seu email">
 
     </div>
     <div class="form-group">

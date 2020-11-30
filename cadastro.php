@@ -1,6 +1,4 @@
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +21,7 @@
   <form action="cadastrar.php" method="POST" id="form_login">
     <div class="form-group">
       <label for="exampleInputEmail1">Email:</label>
-      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="usuario" placeholder="Digite seu email">
+      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" placeholder="Digite seu email">
 
     </div>
     <div class="form-group">
@@ -31,9 +29,7 @@
       <input type="password" name="senha" class="form-control" id="senha" placeholder="Digite sua senha">
     </div>
     <div class="navbar">
-    <a href="./index.php">
     <button type="submit" class="btn btn-primary">Cadastrar</button>
-    </a>
 
     </div>
 
