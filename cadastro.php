@@ -13,12 +13,12 @@
   <h2>
     Cadastre-se
   </h2>
+  <form action="cadastrar.php" method="POST" id="form_login">
   <?php if(isset($resultado) && $resultado["cod"] == 0): ?>
   <div class="alert alert-danger" role="alert">
     <?php echo $resultado["msg"]; ?>
   </div>
   <?php endif; ?>
-  <form action="cadastrar.php" method="POST" id="form_login">
     <div class="form-group">
       <label for="exampleInputEmail1">Email:</label>
       <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" placeholder="Digite seu email">

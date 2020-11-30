@@ -1,29 +1,41 @@
 <?php
-session_start();
-include("conexao.php");
+  $email = $_POST["email"];
+  $senha = $_POST["senha"];
 
-$email =  mysqli_real_escape_string($conexao, trim($_POST['email']));
-$senha =  mysqli_real_escape_string($conexao, trim($_POST['senha']));
+  $servername = "de1tmi3t63foh7fa.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+  $username = "u1ep0xet77g9l3ca";
+  $password = "m3kk0o2toycsqb3b";
+  
+  try {
+    $conn = new PDO("mysql:host=$servername;dbname=ci9ez9zc43udapls", $username, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // echo "Conexão realizada com sucesso.";
 
-$sql = "select count(*) as total from usuario where email = '$email'";
-$result = mysqli_query($conexao, $sql);
-$row = mysqli_fetch_assoc($result);
+    $stmt = $conn->prepare("SELECT id FROM usuario WHERE email=:email AND senha=:senha");
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
+    $stmt->execute();
+    // set the resulting array to associative
+    $result = $stmt->fetchAll();
+    $qtd_usuario = count($result);
 
-if($row['total'] == 1){
-  $_SESSION['usuario_existe'] = true;
-  header('Location: cadastro.php');
-  exit;
-}
+    if($qtd_usuario == 0){
+      $stmt = $conn->prepare("INSERT INTO usuario (email, senha) VALUES ('$email','$senha')");
+      $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+      $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
+      $stmt->execute();
+			header('Location: index.php');
 
-$sql = "INSERT INTO usuario (email, senha) VALUES ('$email','$senha')";
+    }else{
+      $resultado["msg"] = "Usuário já cadastrado";
+      $resultado["cod"] = 0;
+      include("cadastro.php");
+    }
 
-if($conexao->query($sql) === TRUE){
-  $_SESSION['status_cadastro'] = true;
-}else{
-	echo 'Usuario já cadastrado';
-}
-  $conexao->close();
+  } catch(PDOException $e) {
+    echo "Falha na conexão: " . $e->getMessage();
+  }
+  $conn = null;
 
-  header('Location: index.php');
-  exit;
 ?>
