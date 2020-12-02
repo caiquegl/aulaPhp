@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-  $email = $_POST["email"];
-  $senha = $_POST["senha"];
   $servername = "de1tmi3t63foh7fa.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
   $username = "u1ep0xet77g9l3ca";
   $password = "m3kk0o2toycsqb3b";
@@ -13,30 +11,20 @@ session_start();
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // echo "Conexão realizada com sucesso.";
 
-    $stmt = $conn->prepare("SELECT id FROM usuario WHERE email=:email AND senha=:senha");
-    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-    $stmt->bindParam(':senha', $senha, PDO::PARAM_STR);
+    $stmt = $conn->prepare("SELECT * FROM ci9ez9zc43udapls.produto WHERE idUsuario = :idUsuario ");
+    $stmt->bindParam(':idUsuario', $_SESSION['idUsuario'], PDO::PARAM_STR);
     $stmt->execute();
     // set the resulting array to associative
     $result = $stmt->fetchAll();
 
-    $qtd_usuario = count($result);
+    $_SESSION['listProduto'] = $result;
+    header('Location: home.php');
 
-    if($qtd_usuario == 1){
-      $_SESSION['idUsuario'] = $result[0][0];
-      $_SESSION['email'] = $email;
-      $_SESSION['senha'] = $senha;
-			header('Location: listProduto.php');
-
-    }else{
-      $resultado["msg"] = "Usuário não encontrado";
-      $resultado["cod"] = 0;
-      include("index.php");
-    }
 
   } catch(PDOException $e) {
     echo "Falha na conexão: " . $e->getMessage();
   }
   $conn = null;
+
 ?>
 
